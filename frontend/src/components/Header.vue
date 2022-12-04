@@ -66,11 +66,19 @@ import router from "@/scripts/router";
 
 export default {
   name: 'Header',
+
   setup() {
+
+    const state = {};
+
     const logout = () => {
-      store.commit('setAccount', 0);
-      sessionStorage.removeItem("id");
-      router.push({path: "/"});
+        axios.post("http://localhost:8080/api/v1/members/logout", state,
+            {withCredentials: true}).then(() => {
+          store.commit('setAccount', 0);
+          sessionStorage.removeItem("id");
+          router.push({path: "/"});
+          window.alert("로그아웃 하였습니다.");
+        })
     }
     return {logout};
   }
