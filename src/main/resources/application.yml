@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/denim_mgmt
+    username: root
+    password: root1234!
+    type: com.zaxxer.hikari.HikariDataSource
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    defer-datasource-initialization: true
+    database: mysql
+    hibernate:
+      ddl-auto: update
