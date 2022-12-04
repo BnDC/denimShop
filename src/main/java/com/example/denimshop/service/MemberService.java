@@ -11,8 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import java.util.OptionalLong;
 
 @Service
 @RequiredArgsConstructor
@@ -31,11 +30,13 @@ public class MemberService {
         return new LoginResponse(member.getMemberId(), token);
     }
 
-    public Member login(MemberInputDto memberInputDto) {
-        Optional<Member> byEmailAndPassword = memberRepository.findByEmailAndPassword(memberInputDto.getEmail(), memberInputDto.getPassword());
-        if (byEmailAndPassword.isEmpty()) {
-            throw new ResponseStatusException(NOT_FOUND);
+    public OptionalLong loginCheck(String token) {
+        Optional<Claims> optionalClaims = jwtService.getClaims(token);
+        if (optionalClaims.isEmpty()) {
+            return OptionalLong.empty();
         }
+        return OptionalLong.of(Long.parseLong(optionalClaims.get().get("id").toString()));
+    }
 
         return byEmailAndPassword.get();
     }
