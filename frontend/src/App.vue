@@ -44,5 +44,4 @@ export default {
 @import '../src/assets/css/slick.min.css';
 @import '../src/assets/css/slick-theme.css';
 @import '../src/assets/css/templatemo.css';
-
 </style>

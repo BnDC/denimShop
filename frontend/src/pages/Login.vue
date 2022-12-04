@@ -40,7 +40,8 @@ export default {
         })
 
     const submit = () => {
-      axios.post("http://localhost:8080/api/v1/members/login", state.form).then((res) =>{
+      axios.post("http://localhost:8080/api/v1/members/login", state.form,
+          {withCredentials : true}).then((res) =>{
         store.commit('setAccount', res.data);
         sessionStorage.setItem("id", res.data);
         router.push({path: "/"});
