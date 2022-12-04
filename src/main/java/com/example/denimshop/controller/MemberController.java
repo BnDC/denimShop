@@ -1,7 +1,12 @@
 package com.example.denimshop.controller;
 
+import com.example.denimshop.dto.LoginResponse;
 import com.example.denimshop.dto.MemberInputDto;
+import com.example.denimshop.exception.DuplicatedEmailException;
+import com.example.denimshop.exception.UserNotFoundException;
 import com.example.denimshop.service.MemberService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,4 +62,21 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/signup")
+    public ResponseEntity<Long> signup(@Validated @RequestBody MemberInputDto memberInputDto, HttpServletResponse response) {
+        LoginResponse loginResponse;
+
+        try {
+            loginResponse = memberService.signup(memberInputDto);
+        } catch (DuplicatedEmailException e) {
+            throw new ResponseStatusException(BAD_REQUEST);
+        }
+
+        Cookie cookie = new Cookie("token", loginResponse.getToken());
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+
+        return new ResponseEntity<>(loginResponse.getMemberId(), HttpStatus.OK);
+    }
 }

@@ -46,9 +46,7 @@
                        v-if="$store.state.account.id">
             <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
           </router-link>
-          <!--          <a class="nav-icon position-relative text-decoration-none" href="#">-->
-          <!--            <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>-->
-          <!--          </a>-->
+          <router-link to="/signup" class="btn btn-toolbar" v-if="!$store.state.account.id">signup</router-link>
           <a class="nav-icon position-relative text-decoration-none" href="#">
             <router-link to="/login" class="btn btn-toolbar" v-if="!$store.state.account.id">login</router-link>
             <a to="/logout" class="btn btn-toolbar" @click="logout()" v-else>logout</a>
@@ -63,6 +61,7 @@
 <script>
 import store from "@/scripts/store";
 import router from "@/scripts/router";
+import axios from "axios";
 
 export default {
   name: 'Header',

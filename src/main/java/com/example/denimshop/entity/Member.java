@@ -1,6 +1,7 @@
 package com.example.denimshop.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,4 +19,10 @@ public class Member extends BaseTimeEntity {
 
     @Column(length = 100, nullable = false)
     private String password;
+
+    @Builder
+    Member(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }

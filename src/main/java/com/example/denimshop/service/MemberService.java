@@ -38,7 +38,18 @@ public class MemberService {
         return OptionalLong.of(Long.parseLong(optionalClaims.get().get("id").toString()));
     }
 
-        return byEmailAndPassword.get();
-    }
+    public LoginResponse signup(MemberInputDto memberInputDto) {
+        if (memberRepository.existsByEmail(memberInputDto.getEmail())) {
+            throw new DuplicatedEmailException();
+        }
 
+        Member member = memberRepository.save(Member.builder()
+                .email(memberInputDto.getEmail())
+                .password(memberInputDto.getPassword())
+                .build());
+
+        String token = jwtService.getToken("id", member.getMemberId());
+
+        return new LoginResponse(member.getMemberId(), token);
+    }
 }
