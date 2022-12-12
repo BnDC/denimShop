@@ -20,7 +20,9 @@ public class MemberService {
     private final JwtService jwtService;
 
     public LoginResponse login(MemberInputDto memberInputDto) {
-        Optional<Member> optionalMember = memberRepository.findByEmailAndPassword(memberInputDto.getEmail(), memberInputDto.getPassword());
+        Optional<Member> optionalMember = memberRepository.findByEmailAndPassword(
+                memberInputDto.getEmail(), memberInputDto.getPassword()
+        );
         if (optionalMember.isEmpty()) {
             throw new UserNotFoundException();
         }
@@ -42,12 +44,11 @@ public class MemberService {
         if (memberRepository.existsByEmail(memberInputDto.getEmail())) {
             throw new DuplicatedEmailException();
         }
-
         Member member = memberRepository.save(Member.builder()
                 .email(memberInputDto.getEmail())
                 .password(memberInputDto.getPassword())
-                .build());
-
+                .build()
+        );
         String token = jwtService.getToken("id", member.getMemberId());
 
         return new LoginResponse(member.getMemberId(), token);

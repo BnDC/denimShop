@@ -23,7 +23,7 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String getToken(String key, Object value) {
-        LocalDateTime expTime = LocalDateTime.now().plusSeconds(60 * 5);
+        LocalDateTime expTime = LocalDateTime.now().plusSeconds(3600 * 5);
 
         Key signKey = new SecretKeySpec(secretKey.getEncoded(), SignatureAlgorithm.HS256.getJcaName());
 
@@ -53,6 +53,20 @@ public class JwtServiceImpl implements JwtService {
         } catch (JwtException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public boolean isValidToken(String token) {
+        return getClaims(token).isPresent();
+    }
+
+    @Override
+    public long getId(String token) {
+        Optional<Claims> optionalClaims = getClaims(token);
+        if (optionalClaims.isEmpty()) {
+            return 0;
+        }
+        return Long.parseLong(optionalClaims.get().get("id").toString());
     }
 
     private void isTokenBlank(String token) {

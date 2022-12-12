@@ -8,4 +8,8 @@ public interface JwtService {
     String getToken(String key, Object value);
 
     Optional<Claims> getClaims(String token);
+
+    boolean isValidToken(String token);
+
+    long getId(String token);
 }

@@ -2,8 +2,6 @@ package com.example.denimshop.controller;
 
 import com.example.denimshop.dto.LoginResponse;
 import com.example.denimshop.dto.MemberInputDto;
-import com.example.denimshop.exception.DuplicatedEmailException;
-import com.example.denimshop.exception.UserNotFoundException;
 import com.example.denimshop.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,29 +10,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.OptionalLong;
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
 public class MemberController {
-
     private final MemberService memberService;
 
     @PostMapping("/login")
-    public ResponseEntity<Long> login(@Validated @RequestBody MemberInputDto memberInputDto, HttpServletResponse response) {
+    public ResponseEntity<Long> login(
+            @Validated @RequestBody MemberInputDto memberInputDto,
+            HttpServletResponse response
+    ) {
         LoginResponse loginResponse;
 
-        try {
-            loginResponse = memberService.login(memberInputDto);
-        } catch (UserNotFoundException e) {
-            throw new ResponseStatusException(BAD_REQUEST);
-        }
-
+        loginResponse = memberService.login(memberInputDto);
         Cookie cookie = new Cookie("token", loginResponse.getToken());
         cookie.setPath("/");
         cookie.setHttpOnly(true);
@@ -63,15 +55,13 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Long> signup(@Validated @RequestBody MemberInputDto memberInputDto, HttpServletResponse response) {
+    public ResponseEntity<Long> signup(
+            @Validated @RequestBody MemberInputDto memberInputDto,
+            HttpServletResponse response
+    ) {
         LoginResponse loginResponse;
 
-        try {
-            loginResponse = memberService.signup(memberInputDto);
-        } catch (DuplicatedEmailException e) {
-            throw new ResponseStatusException(BAD_REQUEST);
-        }
-
+        loginResponse = memberService.signup(memberInputDto);
         Cookie cookie = new Cookie("token", loginResponse.getToken());
         cookie.setPath("/");
         cookie.setHttpOnly(true);
