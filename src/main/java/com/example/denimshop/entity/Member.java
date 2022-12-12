@@ -8,12 +8,11 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@Table(name = "member",
+@Table(name = "거member",
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "emailUnique",
