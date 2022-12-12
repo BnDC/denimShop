@@ -65,8 +65,7 @@ export default {
       items: []
     })
 
-    axios.get("http://localhost:8080/api/v1/denims/all").then(({data}) => {
-      // console.log(res);
+    axios.get("http://localhost:8080/api/v1/denims/list").then(({data}) => {
       state.items = data;
     });
     return {state}
