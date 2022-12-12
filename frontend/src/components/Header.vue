@@ -22,6 +22,10 @@
                        v-if="$store.state.account.id">
             <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
           </router-link>
+          <router-link to="/orders" class="nav-icon position-relative text-decoration-none"
+                       v-if="$store.state.account.id">
+            <i class="fa fa-fw fa-money-check text-dark mr-1"></i>
+          </router-link>
           <router-link to="/signup" class="btn btn-toolbar" v-if="!$store.state.account.id">signup</router-link>
           <a class="nav-icon position-relative text-decoration-none" href="#">
             <router-link to="/login" class="btn btn-toolbar" v-if="!$store.state.account.id">login</router-link>
